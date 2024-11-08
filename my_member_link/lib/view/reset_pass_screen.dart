@@ -5,17 +5,17 @@ import 'package:my_member_link/myconfig.dart';
 import 'package:my_member_link/view/login_screen.dart';
 import 'package:email_otp/email_otp.dart';
 
-
 void main() {
   EmailOTP.config(
     appName: 'MyApp',
     otpType: OTPType.numeric,
-    expiry : 30000,
+    expiry: 30000,
     emailTheme: EmailTheme.v6,
     appEmail: 'me@rohitchouhan.com',
     otpLength: 6,
   );
 }
+
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
@@ -27,15 +27,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
-  
+
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
   TextEditingController otpController = TextEditingController();
   bool isOtpSent = false;
   bool isOtpVerified = false;
-  
-  
-  
 
   final commonDecoration = InputDecoration(
     border: const OutlineInputBorder(
@@ -115,21 +112,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () async {
-              if (await EmailOTP.sendOTP(email: emailController.text)) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("OTP has been sent"),
-                        backgroundColor: Colors.green));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("OTP failed sent"),
-                        backgroundColor: Colors.red));
-              }
-            },
+                    if (await EmailOTP.sendOTP(email: emailController.text)) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("OTP has been sent"),
+                          backgroundColor: Colors.green));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("OTP failed sent"),
+                          backgroundColor: Colors.red));
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red[300]),
                 ),
                 const SizedBox(height: 20),
-                
                 TextField(
                   controller: otpController,
                   keyboardType: TextInputType.number,
@@ -143,25 +139,26 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         width: 80,
                         child: ElevatedButton(
                           onPressed: () async {
-                          bool otpValid = await EmailOTP.verifyOTP(
-                            otp: otpController.text,
-                          );
-                          if (otpValid) {
-                            setState(() {
-                              isOtpVerified = true;
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("OTP verified successfully"),
-                                  backgroundColor: Colors.green),
+                            bool otpValid = await EmailOTP.verifyOTP(
+                              otp: otpController.text,
                             );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Invalid OTP"),
-                                  backgroundColor: Colors.red),
-                            );
-                          }
-                        },
+                            if (otpValid) {
+                              setState(() {
+                                isOtpVerified = true;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("OTP verified successfully"),
+                                    backgroundColor: Colors.green),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Invalid OTP"),
+                                    backgroundColor: Colors.red),
+                              );
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red[300],
                             padding: EdgeInsets.zero,
@@ -271,14 +268,63 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       return;
     }
 
-    if (newPassword == confirmPassword) {
-      if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]').hasMatch(newPassword)) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Password must contain both letters and numbers"),
-          backgroundColor: Colors.red,
-        ));
-        return;
-      }
+    if (newPassword != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text("Passwords do not match"),
+            backgroundColor: Colors.red),
+      );
+      return;
+    }
+    if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]').hasMatch(newPassword)) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Password must contain both letters and numbers"),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            title: const Text(
+              "Register New Account?",
+              style: TextStyle(),
+            ),
+            content: const Text(
+              "Are you sure?",
+              style: TextStyle(),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  "Yes",
+                  style: TextStyle(),
+                ),
+                onPressed: () async {
+                  await PasswordReset(email, newPassword, confirmPassword);
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text(
+                  "No",
+                  style: TextStyle(),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<void> PasswordReset(
+      String email, String newPassword, String confirmPassword) async {
+    try {
       // Send a POST request to the PHP server
       final response = await http.post(
         Uri.parse("${Myconfig.servername}/membership/api/reset_password.php"),
@@ -296,8 +342,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         if (data['status'] == "success") {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-                content: Text("Password Reset Successful"),
-                backgroundColor: Colors.green),
+              content: Text("Password Reset Successful"),
+              backgroundColor: Colors.green,
+            ),
           );
           Navigator.pushReplacement(
             context,
@@ -306,57 +353,26 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text(data['message'] ?? "Password reset failed"),
-                backgroundColor: Colors.red),
+              content: Text(data['message'] ?? "Password reset failed"),
+              backgroundColor: Colors.red,
+            ),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-              content: Text("Server error, please try again later"),
-              backgroundColor: Colors.red),
+            content: Text("Server error, please try again later"),
+            backgroundColor: Colors.red,
+          ),
         );
       }
-    } else {
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("Passwords do not match"),
-            backgroundColor: Colors.red),
+        SnackBar(
+          content: Text("Error: $e"),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
-
-  // void sendOTP() async {
-  //   var result = await emailAuth.sendOtp(
-  //       recipientMail: emailController.text, otpLength: 5);
-  //   if (result) {
-  //     print("OTP Sent");
-  //   } else {
-  //     print("We could not sent the OTP");
-  //   }
-  // }
-
-  // void verifyOTP() async {
-  //   var result = emailAuth.validateOtp(
-  //       recipientMail: emailController.text, userOtp: otpController.text);
-  //   if (result) {
-  //     print("OTP verified");
-  //   } else {
-  //     print("Invalid OTP");
-  //   }
-  // }
-
-  // void sendOtp() async {
-  // bool result = await emailAuth.sendOtp(
-  //     recipientMail: emailController.value.text, otpLength: 5
-  //     );
-  // }
-
-  // bool verifyOtp(String email, String otp) {
-  //   email = emailController.text;
-  //   otp = otpController.text;
-  //   print(emailAuth.validateOtp(
-  //       recipientMail: email,
-  //       userOtp: otp));
-  // }
 }
