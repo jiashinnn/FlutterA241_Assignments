@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_member_link/myconfig.dart';
 import 'package:my_member_link/view/login_screen.dart';
 import 'package:email_otp/email_otp.dart';
+import 'package:pinput/pinput.dart';
 
 void main() {
   EmailOTP.config(
@@ -50,6 +51,39 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
   );
 
+  final defaultPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: const TextStyle(
+        fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.red),
+      borderRadius: BorderRadius.circular(15),
+    ),
+  );
+
+  final focusedPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: const TextStyle(
+        fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.red),
+      borderRadius: BorderRadius.circular(15),
+    ),
+  );
+
+  final submittedPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: const TextStyle(
+        fontSize: 20, color: Colors.black, fontWeight: FontWeight.w600),
+    decoration: BoxDecoration(
+      color: const Color.fromRGBO(234, 239, 243, 1),
+      borderRadius: BorderRadius.circular(20),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     onTap() {
@@ -61,22 +95,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           title: const Text("Change Password"),
           backgroundColor: Colors.red[300],
         ),
-        //backgroundColor: Colors.red[300],
         body: GestureDetector(
           onTap: onTap,
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(32.0),
-            // child: Container(
-            //   padding: const EdgeInsets.all(20.0),
-            //   decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.circular(15.0),
-            //       boxShadow: const [
-            //         BoxShadow(
-            //             color: Colors.black26,
-            //             blurRadius: 10,
-            //             offset: Offset(0, 4)),
-            //       ]),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,50 +148,37 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       backgroundColor: Colors.red[300]),
                 ),
                 const SizedBox(height: 20),
-                TextField(
+                Pinput(
+                  length: 6,
                   controller: otpController,
-                  keyboardType: TextInputType.number,
-                  decoration: commonDecoration.copyWith(
-                    prefixIcon: Icon(Icons.security, color: Colors.red[300]),
-                    labelText: 'OTP',
-                    hintText: 'Enter OTP',
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: SizedBox(
-                        width: 80,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            bool otpValid = await EmailOTP.verifyOTP(
-                              otp: otpController.text,
-                            );
-                            if (otpValid) {
-                              setState(() {
-                                isOtpVerified = true;
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("OTP verified successfully"),
-                                    backgroundColor: Colors.green),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Invalid OTP"),
-                                    backgroundColor: Colors.red),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.red[300],
-                            padding: EdgeInsets.zero,
-                          ),
-                          child: const Text("Verify",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14)),
+                  defaultPinTheme: defaultPinTheme,
+                  focusedPinTheme: focusedPinTheme,
+                  submittedPinTheme: submittedPinTheme,
+                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                  showCursor: true,
+                  onCompleted: (pin) async {
+                    bool otpValid = await EmailOTP.verifyOTP(
+                      otp: otpController.text,
+                    );
+                    if (otpValid) {
+                      setState(() {
+                        isOtpVerified = true;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("OTP verified successfully"),
+                          backgroundColor: Colors.green,
                         ),
-                      ),
-                    ),
-                  ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Invalid OTP"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
                 ),
                 const SizedBox(height: 20),
                 TextField(
@@ -290,11 +299,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             title: const Text(
-              "Register New Account?",
+              "Reset Password",
               style: TextStyle(),
             ),
             content: const Text(
-              "Are you sure?",
+              "Are you sure you want to reset your password?",
               style: TextStyle(),
             ),
             actions: <Widget>[
@@ -305,7 +314,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 onPressed: () async {
                   await PasswordReset(email, newPassword, confirmPassword);
-                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
+                  );
                 },
               ),
               TextButton(
@@ -335,7 +348,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         },
       );
 
-      // Handle the response from the server
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
 

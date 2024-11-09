@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     onTap() {
       FocusScope.of(context).unfocus();
-    } //close keyboard when clicked somewhere
+    }
 
     return TextSelectionTheme(
         data: TextSelectionThemeData(
@@ -113,48 +113,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      // TextSelectionTheme(
-                      //   data: TextSelectionThemeData(
-                      //     selectionColor: Colors.black.withOpacity(0.2),
-                      //     selectionHandleColor: Colors.black87,
-                      //   ),
-                      //   child: 
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: firstNameController,
-                                keyboardType: TextInputType.name,
-                                cursorColor: Colors.black,
-                                decoration: commonDecoration.copyWith(
-                                  prefixIcon: Icon(
-                                    Icons.person,
-                                    color: Colors.red[300],
-                                  ),
-                                  labelText: 'First Name',
-                                  hintText: 'First Name',
+
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: firstNameController,
+                              keyboardType: TextInputType.name,
+                              cursorColor: Colors.black,
+                              decoration: commonDecoration.copyWith(
+                                prefixIcon: Icon(
+                                  Icons.person,
+                                  color: Colors.red[300],
                                 ),
+                                labelText: 'First Name',
+                                hintText: 'First Name',
                               ),
                             ),
-                            const SizedBox(
-                                width: 10), // Space between the text fields
-                            Expanded(
-                              child: TextField(
-                                controller: lastNameController,
-                                keyboardType: TextInputType.name,
-                                cursorColor: Colors.black,
-                                decoration: commonDecoration.copyWith(
-                                  prefixIcon: Icon(
-                                    Icons.person,
-                                    color: Colors.red[300],
-                                  ),
-                                  labelText: 'Last Name',
-                                  hintText: 'Last Name',
+                          ),
+                          const SizedBox(
+                              width: 10), // Space between the text fields
+                          Expanded(
+                            child: TextField(
+                              controller: lastNameController,
+                              keyboardType: TextInputType.name,
+                              cursorColor: Colors.black,
+                              decoration: commonDecoration.copyWith(
+                                prefixIcon: Icon(
+                                  Icons.person,
+                                  color: Colors.red[300],
                                 ),
+                                labelText: 'Last Name',
+                                hintText: 'Last Name',
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
                       // ),
                       const SizedBox(height: 10),
                       TextField(
@@ -581,11 +576,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future loginWithFacebook() async {
     final result =
-      await FacebookAuth.i.login(permissions: ['public_profile', 'email']);
-  if (result.status == LoginStatus.success) {
-    final userData = await FacebookAuth.i.getUserData();
-    return userData;
+        await FacebookAuth.i.login(permissions: ['public_profile', 'email']);
+    if (result.status == LoginStatus.success) {
+      final userData = await FacebookAuth.i.getUserData();
+      return userData;
+    }
+    return null;
   }
-  return null;
-}
 }

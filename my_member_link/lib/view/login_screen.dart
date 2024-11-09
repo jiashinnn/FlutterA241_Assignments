@@ -139,12 +139,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextSelectionTheme(
                         data: TextSelectionThemeData(
                           selectionColor: Colors.black.withOpacity(0.2),
-                          selectionHandleColor:
-                              Colors.black87, // Set the selection color here
+                          selectionHandleColor: Colors.black87,
                         ),
                         child: TextField(
                           controller: passwordController,
-                          // obscureText: true,
                           keyboardType: TextInputType.emailAddress,
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
@@ -153,14 +151,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   BorderRadius.all(Radius.circular(10)),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.black), // Black when focused
+                              borderSide: const BorderSide(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color:
-                                      Colors.black), // Black when not focused
+                              borderSide: const BorderSide(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             prefixIcon: Icon(
@@ -228,15 +223,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                       password = "";
                                       storeSharedPrefs(value, email, password);
                                     }
-                                    rememberme = value ?? false;
+                                    rememberme = value;
                                     setState(() {});
                                   });
                                 })),
                         const Spacer(),
                         GestureDetector(
-                          onTap: (){
-                            Navigator.push(context,
-                              MaterialPageRoute(builder: (content) => const ResetPasswordScreen()));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (content) =>
+                                        const ResetPasswordScreen()));
                           },
                           child: const Text(
                             "Forgot Password?",
@@ -376,8 +374,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     http.post(Uri.parse("${Myconfig.servername}/membership/api/login_user.php"),
         body: {"email": email, "password": password}).then((response) {
-      //print(response.body);
-      //print(response.statusCode);
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         if (data['status'] == "success") {
@@ -397,12 +393,6 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  /// Store the email and password in shared preferences if [value] is true.
-  /// Otherwise, erase the stored email and password.
-  ///
-  /// [value] is the value of the "remember me" checkbox.
-  /// [email] is the email entered by the user.
-  /// [password] is the password entered by the user.
   Future<void> storeSharedPrefs(
       bool value, String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

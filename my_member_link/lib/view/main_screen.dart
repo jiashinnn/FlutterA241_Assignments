@@ -29,7 +29,6 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-     
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -39,18 +38,14 @@ class _MainScreenState extends State<MainScreen> {
               fit: BoxFit.contain,
               width: 400,
               height: 400,
-
             ),
           ),
-          
-         
         ],
       ),
     );
   }
 
   Future<void> signOutGoogle(BuildContext context) async {
-    // Sign out from Google
     await googleSignIn.signOut();
     Navigator.pop(context);
   }
