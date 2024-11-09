@@ -1,6 +1,6 @@
 # Mobile Web Programming Assignment 1: MyMemberLink App
 
-This application’s source code includes a **Splash Screen**, **Login**, and **Registration Screen**, all built with **Flutter** and **Dart**. It connects to a MySQL database through a PHP backend service, hosted on XAMPP, and integrates additional features like **Google Sign-In** and **Facebook Sign-In** via Firebase. It also includes a **password reset** feature to enhance user support.
+This application’s source code includes a **Splash Screen**, **Login**, and **Register Screen**, all built with **Flutter** and **Dart**. It connects to a MySQL database through a PHP backend service, hosted on XAMPP, and integrates additional features like **Google Sign-In** and **Facebook Sign-In** via Firebase. It also includes a **password reset** feature to enhance user support.
 
 Hope you will feel well with my source code! :)
 
@@ -11,4 +11,4 @@ Hope you will feel well with my source code! :)
 
 | Main Screen                                     | Password Reset Screen                                     | 
 |--------------------------------------------------------|--------------------------------------------------------|
-| <p align="center"><img src="https://github.com/user-attachments/assets/1dcf6e3d-bd28-4f23-b221-142ca0484240" alt="Splash Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/f7891e6b-fad9-4d9a-97d0-e5536ee784a6" alt="Login Screen" width="80%"> | 
+| <p align="center"><img src="https://github.com/user-attachments/assets/1dcf6e3d-bd28-4f23-b221-142ca0484240" alt="Splash Screen" width="60%"> | <p align="center"><img src="https://github.com/user-attachments/assets/f7891e6b-fad9-4d9a-97d0-e5536ee784a6" alt="Login Screen" width="60%"> | 
