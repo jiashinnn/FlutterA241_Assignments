@@ -4,17 +4,11 @@ This application’s source code includes a **Splash Screen**, **Login**, and **
 
 Hope you will feel well with my source code! :)
 
-### Splash Screen
-<img src="https://github.com/user-attachments/assets/d850d21a-71a0-43de-b36d-56e84e600d40" alt="Screenshot 1" width="25%">
 
-### Login Screen
-<img src="https://github.com/user-attachments/assets/6945da4e-30f1-4c70-8f69-b26797526916" alt="Screenshot 1" width="25%">
+| Splash Screen                                       | Login Screen                                       | Register Screen                                       |
+|--------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
+| <p align="center"><img src="https://github.com/user-attachments/assets/d850d21a-71a0-43de-b36d-56e84e600d40" alt="Splash Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/6945da4e-30f1-4c70-8f69-b26797526916" alt="Login Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/1aa078d0-489b-46c8-8306-695322f92650" alt="Screenshot 1" width="80%"> |
 
-### Register Screen
-<img src="https://github.com/user-attachments/assets/1aa078d0-489b-46c8-8306-695322f92650" alt="Screenshot 1" width="25%">
-
-### Main Screen
-<img src="https://github.com/user-attachments/assets/1dcf6e3d-bd28-4f23-b221-142ca0484240" alt="Screenshot 1" width="25%">
-
-### Password Reset Screen
-<img src="https://github.com/user-attachments/assets/cb9f75d1-5f59-4e43-90c1-07c48c2cf137" alt="Screenshot 1" width="25%">
+| Main Screen                                     | Password Reset Screen                                     | 
+|--------------------------------------------------------|--------------------------------------------------------|
+| <p align="center"><img src="https://github.com/user-attachments/assets/1dcf6e3d-bd28-4f23-b221-142ca0484240" alt="Splash Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/f7891e6b-fad9-4d9a-97d0-e5536ee784a6" alt="Login Screen" width="80%"> | 
