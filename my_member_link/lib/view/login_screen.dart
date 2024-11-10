@@ -422,13 +422,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> SignInGoogle() async {
     try {
-      await googleSignIn.signIn();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Login Successful"),
-          backgroundColor: Colors.green,
-        ),
-      );
+      final account = await googleSignIn.signIn();
+      if (account != null) {
+        // Only show SnackBar if login was successful
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Google login successful"),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
     } catch (error) {
       print("Google sign-in failed: $error");
     }

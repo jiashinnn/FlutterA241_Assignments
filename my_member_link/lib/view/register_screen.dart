@@ -436,7 +436,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     if (!RegExp(r'^\d{3}-\d{8,12}$').hasMatch(phone)) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Please use this format: xxx-xxxxxxxx"),
+        content: Text("Please use this format for phone: xxx-xxxxxxxx"),
         backgroundColor: Colors.red,
       ));
       return;
