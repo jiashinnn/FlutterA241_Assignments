@@ -569,6 +569,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> SignInGoogle() async {
     try {
       await googleSignIn.signIn();
+      
     } catch (error) {
       print("Google sign-in failed: $error");
     }
