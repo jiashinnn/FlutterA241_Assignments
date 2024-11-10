@@ -335,6 +335,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     MaterialPageRoute(
                         builder: (context) => const LoginScreen()),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Password Reset successfully"),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
                 },
               ),
               TextButton(
