@@ -25,6 +25,12 @@ class _MainScreenState extends State<MainScreen> {
             icon: const Icon(Icons.logout),
             onPressed: () {
               signOutGoogle(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Log out successful"),
+                  backgroundColor: Colors.green,
+                ),
+              );
             },
           ),
         ],

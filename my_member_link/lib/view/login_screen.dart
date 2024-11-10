@@ -8,7 +8,6 @@ import 'package:my_member_link/view/register_screen.dart';
 import 'package:my_member_link/view/reset_pass_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:email_validator/email_validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -355,16 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void onLogin() {
     String email = emailController.text;
     String password = passwordController.text;
-    setState(() {
-      isEmailValid = EmailValidator.validate(email);
-    });
-    if (!isEmailValid) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Email is not valid"),
-        backgroundColor: Colors.red,
-      ));
-      return;
-    }
+
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Please enter email and password"),
@@ -372,6 +362,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ));
       return;
     }
+
     http.post(Uri.parse("${Myconfig.servername}/membership/api/login_user.php"),
         body: {"email": email, "password": password}).then((response) {
       if (response.statusCode == 200) {

@@ -90,163 +90,172 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       FocusScope.of(context).unfocus();
     }
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Change Password"),
-          backgroundColor: Colors.red[300],
+    return TextSelectionTheme(
+        data: TextSelectionThemeData(
+          selectionColor: Colors.black.withOpacity(0.2),
+          selectionHandleColor: Colors.black87,
         ),
-        body: GestureDetector(
-          onTap: onTap,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  "assets/images/logo2.png",
-                  fit: BoxFit.fitWidth,
-                  width: 150,
-                  height: 70,
-                ),
-                const Text(
-                  "Change Password",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: commonDecoration.copyWith(
-                    prefixIcon: Icon(Icons.email, color: Colors.red[300]),
-                    labelText: 'Email Address',
-                    hintText: 'Enter your email',
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.verified,
-                    color: Colors.white,
-                  ),
-                  label: const Text(
-                    "Send OTP",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () async {
-                    if (await EmailOTP.sendOTP(email: emailController.text)) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("OTP has been sent"),
-                          backgroundColor: Colors.green));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("OTP failed sent"),
-                          backgroundColor: Colors.red));
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red[300]),
-                ),
-                const SizedBox(height: 20),
-                Pinput(
-                  length: 6,
-                  controller: otpController,
-                  defaultPinTheme: defaultPinTheme,
-                  focusedPinTheme: focusedPinTheme,
-                  submittedPinTheme: submittedPinTheme,
-                  pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                  showCursor: true,
-                  onCompleted: (pin) async {
-                    bool otpValid = await EmailOTP.verifyOTP(
-                      otp: otpController.text,
-                    );
-                    if (otpValid) {
-                      setState(() {
-                        isOtpVerified = true;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("OTP verified successfully"),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Invalid OTP"),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextField(
-                  controller: newPasswordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: obscurePassword,
-                  enabled: isOtpVerified,
-                  decoration: commonDecoration.copyWith(
-                    prefixIcon: Icon(Icons.lock, color: Colors.red[300]),
-                    labelText: 'New Password',
-                    hintText: 'Enter new password',
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          obscurePassword = !obscurePassword;
-                        });
-                      },
-                      child: Icon(
-                        obscurePassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: confirmPasswordController,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: obscureConfirmPassword,
-                  enabled: isOtpVerified,
-                  decoration: commonDecoration.copyWith(
-                    prefixIcon: Icon(Icons.lock, color: Colors.red[300]),
-                    labelText: 'Confirm Password',
-                    hintText: 'Re-enter new password',
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          obscureConfirmPassword = !obscureConfirmPassword;
-                        });
-                      },
-                      child: Icon(
-                        obscureConfirmPassword
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: isOtpVerified ? resetPassword : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[300],
-                    minimumSize: const Size(200, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  child: const Text("Reset Password",
-                      style: TextStyle(fontSize: 18, color: Colors.white)),
-                ),
-              ],
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text("Change Password"),
+              backgroundColor: Colors.red[300],
             ),
-          ),
-        ));
+            body: GestureDetector(
+              onTap: onTap,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(32.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      "assets/images/logo2.png",
+                      fit: BoxFit.fitWidth,
+                      width: 150,
+                      height: 70,
+                    ),
+                    const Text(
+                      "Change Password",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: commonDecoration.copyWith(
+                        prefixIcon: Icon(Icons.email, color: Colors.red[300]),
+                        labelText: 'Email Address',
+                        hintText: 'Enter your email',
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.verified,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        "Send OTP",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        if (await EmailOTP.sendOTP(
+                            email: emailController.text)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("OTP has been sent"),
+                                  backgroundColor: Colors.green));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text("OTP failed sent"),
+                                  backgroundColor: Colors.red));
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red[300]),
+                    ),
+                    const SizedBox(height: 20),
+                    Pinput(
+                      length: 6,
+                      controller: otpController,
+                      defaultPinTheme: defaultPinTheme,
+                      focusedPinTheme: focusedPinTheme,
+                      submittedPinTheme: submittedPinTheme,
+                      pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                      showCursor: true,
+                      onCompleted: (pin) async {
+                        bool otpValid = await EmailOTP.verifyOTP(
+                          otp: otpController.text,
+                        );
+                        if (otpValid) {
+                          setState(() {
+                            isOtpVerified = true;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("OTP verified successfully"),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Invalid OTP"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      controller: newPasswordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: obscurePassword,
+                      enabled: isOtpVerified,
+                      decoration: commonDecoration.copyWith(
+                        prefixIcon: Icon(Icons.lock, color: Colors.red[300]),
+                        labelText: 'New Password',
+                        hintText: 'Enter new password',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              obscurePassword = !obscurePassword;
+                            });
+                          },
+                          child: Icon(
+                            obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: confirmPasswordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: obscureConfirmPassword,
+                      enabled: isOtpVerified,
+                      decoration: commonDecoration.copyWith(
+                        prefixIcon: Icon(Icons.lock, color: Colors.red[300]),
+                        labelText: 'Confirm Password',
+                        hintText: 'Re-enter new password',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              obscureConfirmPassword = !obscureConfirmPassword;
+                            });
+                          },
+                          child: Icon(
+                            obscureConfirmPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: isOtpVerified ? resetPassword : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[300],
+                        minimumSize: const Size(200, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: const Text("Reset Password",
+                          style: TextStyle(fontSize: 18, color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ),
+            )));
   }
 
   Future<bool> checkEmailExists(String email) async {
@@ -283,6 +292,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             content: Text("Passwords do not match"),
             backgroundColor: Colors.red),
       );
+      return;
+    }
+    if (newPassword.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Password must be at least 6 characters"),
+        backgroundColor: Colors.red,
+      ));
       return;
     }
     if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]').hasMatch(newPassword)) {

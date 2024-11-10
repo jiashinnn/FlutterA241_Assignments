@@ -17,7 +17,6 @@ if (empty($email)) {
     exit;
 }
 
-// Database check
 $sqlemailcheck = "SELECT * FROM tbl_users WHERE user_email = ?";
 $stmt = $conn->prepare($sqlemailcheck);
 $stmt->bind_param("s", $email);
