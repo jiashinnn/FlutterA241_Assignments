@@ -256,13 +256,11 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                                 Row(
                                   children: List.generate(3, (index) {
                                     int pageIndex = curpage - 1 + index;
-
                                     // Ensure we don't display pages that don't exist (below 1 or above total number of pages)
                                     if (pageIndex < 1 ||
                                         pageIndex > numofpage) {
                                       return const SizedBox.shrink();
                                     }
-
                                     return TextButton(
                                       onPressed: () {
                                         setState(() {
