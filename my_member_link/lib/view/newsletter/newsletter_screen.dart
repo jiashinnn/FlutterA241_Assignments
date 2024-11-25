@@ -369,7 +369,6 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
           numofpage = int.parse(data['numofpage'].toString());
           numofresult = int.parse(data['numofresult'].toString());
           setState(() {});
-          
         } else {
           print("Error");
         }
