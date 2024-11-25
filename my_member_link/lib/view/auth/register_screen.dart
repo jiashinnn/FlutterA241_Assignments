@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:my_member_link/myconfig.dart';
-import 'package:my_member_link/view/login_screen.dart';
+import 'package:my_member_link/view/auth/login_screen.dart';
 import 'package:my_member_link/view/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
