@@ -1,11 +1,24 @@
-# Mobile Web Programming Assignment 1: MyMemberLink App
+# Mobile Web Programming Assignment: MyMemberLink App
+## Assignment 2
+I have enhanced my app with the **user-friendly main screen**, **drawer**, and **newsletter screen** with the features of **CRUD**. Users can add, search, delete and update the newsletter. In my newsletter screen, I implemented list view pagination, search by entering keyword from title or details, delete newsletter by swipe the specific item, as well as add new newsletter and edit by navigate to the other simple screen.
 
+Hope you will feel well with my source code! :)
+
+| Main Screen                                            | Drawer                                                 | Newsletter Screen                                   |
+|--------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
+| <p align="center"><img src="https://github.com/user-attachments/assets/42e5a1d3-e6ed-460f-a7ad-7f447d50438f" alt="Main Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/620930e0-7782-4c9a-ba56-9c82856dd028" alt="Drawer" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/52b72a15-ceb1-48dc-a6ea-f512101721d2" alt="Newsletter" width="80%"> |
+
+| Add New Newsletter Screen                              | Edit Newsletter Screen                                 |
+|--------------------------------------------------------|--------------------------------------------------------|
+| <p align="center"><img src="https://github.com/user-attachments/assets/3340c92c-1876-4807-9b8c-c2ffacb36a79" alt="Add Screen" width="60%"> | <p align="center"><img src="https://github.com/user-attachments/assets/ccfed555-d5c7-4091-8d71-50d966b7393a" alt="Edit Screen" width="60%"> |
+
+## Assignment 1
 This application’s source code includes a **Splash Screen**, **Login**, and **Register Screen**, all built with **Flutter** and **Dart**. It connects to a MySQL database through a PHP backend service, hosted on XAMPP, and integrates additional features like **Google Sign-In** and **Facebook Sign-In** via Firebase. It also includes a **password reset** feature to enhance user support.
 
 Hope you will feel well with my source code! :)
 
-
-| Splash Screen                                       | Login Screen                                       | Register Screen                                       |
+  
+| Splash Screen                                          | Login Screen                                           | Register Screen                                        |
 |--------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
 | <p align="center"><img src="https://github.com/user-attachments/assets/d850d21a-71a0-43de-b36d-56e84e600d40" alt="Splash Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/6945da4e-30f1-4c70-8f69-b26797526916" alt="Login Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/1aa078d0-489b-46c8-8306-695322f92650" alt="Screenshot 1" width="80%"> |
 
