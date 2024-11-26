@@ -49,7 +49,7 @@ class _NewNewsScreenState extends State<NewNewsScreen> {
           appBar: AppBar(
             backgroundColor: Colors.red[300],
             title: const Text(
-              "News Newsletter",
+              "New Newsletter",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
             ),
             actions: [

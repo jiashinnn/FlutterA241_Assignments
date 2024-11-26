@@ -13,21 +13,49 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.white,
       child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.red[300],
+          UserAccountsDrawerHeader(
+            accountName: const Text(
+              "Yuqi Song",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
-            child: const Text(
-              "MyMemberLink", //Drawer Header
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            accountEmail: const Text(
+              "yuqisong@gmail.com",
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: 14,
+              ),
+            ),
+            currentAccountPicture: const CircleAvatar(
+                child: ClipOval(
+                    child: Image(
+              image: AssetImage('assets/images/yuqi.png'),
+              fit: BoxFit.cover,
+            ))),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.red[400]!, Colors.red[300]!],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
             ),
           ),
           ListTile(
@@ -38,18 +66,20 @@ class _MyDrawerState extends State<MyDrawer> {
             title: const Text("Dashboard"),
             leading: const Icon(Icons.home),
           ),
+          const Divider(
+              color: Colors.black54, thickness: 0.5, indent: 20, endIndent: 20),
           ListTile(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const NewsletterScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NewsletterScreen()));
             },
             title: const Text("Newsletters"),
             leading: const Icon(Icons.newspaper),
           ),
           ListTile(
-            onTap: () {
-             
-            },
+            onTap: () {},
             title: const Text("Events"),
             leading: const Icon(Icons.event),
           ),
@@ -73,11 +103,15 @@ class _MyDrawerState extends State<MyDrawer> {
             title: const Text("Vetting"),
             leading: const Icon(Icons.verified),
           ),
+          const Divider(
+              color: Colors.black54, thickness: 0.5, indent: 20, endIndent: 20),
           ListTile(
             onTap: () {},
             title: const Text("Setting"),
             leading: const Icon(Icons.settings),
           ),
+          const Divider(
+              color: Colors.black54, thickness: 0.5, indent: 20, endIndent: 20),
           ListTile(
             onTap: () {
               signOutGoogle(context);
@@ -98,7 +132,7 @@ class _MyDrawerState extends State<MyDrawer> {
 
   Future<void> signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
-    Navigator.push(context,
-            MaterialPageRoute(builder: (content) => const LoginScreen()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (content) => const LoginScreen()));
   }
 }
