@@ -6,7 +6,7 @@ Hope you will feel well with my source code! :)
 
 | Main Screen                                            | Drawer                                                 | Newsletter Screen                                   |
 |--------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
-| <p align="center"><img src="https://github.com/user-attachments/assets/42e5a1d3-e6ed-460f-a7ad-7f447d50438f" alt="Main Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/620930e0-7782-4c9a-ba56-9c82856dd028" alt="Drawer" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/52b72a15-ceb1-48dc-a6ea-f512101721d2" alt="Newsletter" width="80%"> |
+| <p align="center"><img src="https://github.com/user-attachments/assets/42e5a1d3-e6ed-460f-a7ad-7f447d50438f" alt="Main Screen" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/620930e0-7782-4c9a-ba56-9c82856dd028" alt="Drawer" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/057ed361-98ff-4708-9e1a-0e61647cc36e" alt="Newsletter" width="80%"> |
 
 | Add New Newsletter Screen                              | Edit Newsletter Screen                                 |
 |--------------------------------------------------------|--------------------------------------------------------|
