@@ -29,6 +29,7 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
   String searchKeyword = "";
   TextEditingController searchController = TextEditingController();
 
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -116,9 +117,7 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                   ? Expanded(
                       child: Center(
                         child: Text(
-                          searchKeyword.isEmpty
-                              ? "Loading..."
-                              : "No newsletters found",
+                          searchKeyword.isEmpty ? "Loading..." : "No newsletters found",
                           style: const TextStyle(fontSize: 20),
                         ),
                       ),
@@ -383,23 +382,43 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
     }
 
     http.get(Uri.parse(url)).then((response) {
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        if (data['status'] == "success") {
-          var result = data['data']['news'];
-          newsList.clear();
-          for (var item in result) {
-            News news = News.fromJson(item);
-            newsList.add(news);
-          }
-          numofpage = int.parse(data['numofpage'].toString());
-          numofresult = int.parse(data['numofresult'].toString());
-          setState(() {});
-        } else {
-          print("Error");
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == "success") {
+        var result = data['data']['news'];
+        newsList.clear();
+        for (var item in result) {
+          News news = News.fromJson(item);
+          newsList.add(news);
         }
+        numofpage = int.parse(data['numofpage'].toString());
+        numofresult = int.parse(data['numofresult'].toString());
+        setState(() {});
+
+        // Show a snackbar if no results were found
+        if (newsList.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("No newsletters found for \"$searchKeyword\"."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } else {
+        // No results found, show snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("No newsletters found for \"$searchKeyword\"."),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() {});
       }
-    });
+    }
+  }).catchError((err) {
+    print("Error");
+    setState(() {});
+  });
   }
 
   void showNewsDetailDialog(int index) {
