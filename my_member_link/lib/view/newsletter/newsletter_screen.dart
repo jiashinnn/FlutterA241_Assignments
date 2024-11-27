@@ -106,7 +106,7 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                   onSubmitted: (value) {
                     setState(() {
                       searchKeyword = value;
-                      loadNewsData(); 
+                      loadNewsData();
                     });
                   },
                 ),
@@ -198,13 +198,41 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                                               ),
                                             ],
                                           ),
-                                          subtitle: Text(
-                                            truncateString(
-                                                newsList[index]
-                                                    .newsDetails
-                                                    .toString(),
-                                                100),
-                                            textAlign: TextAlign.justify,
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                truncateString(
+                                                    newsList[index]
+                                                        .newsDetails
+                                                        .toString(),
+                                                    100),
+                                                textAlign: TextAlign.justify,
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                      Icons.favorite_border),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                    "${newsList[index].newsLikes}",
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  const Icon(
+                                                      Icons.bookmark_border),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                    "${newsList[index].newsSaves}",
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                           trailing: IconButton(
                                             onPressed: () {
@@ -252,7 +280,7 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                                   color:
                                       curpage > 1 ? Colors.black : Colors.grey,
                                 ),
-                                
+
                                 Row(
                                   children: List.generate(3, (index) {
                                     int pageIndex = curpage - 1 + index;
@@ -380,9 +408,32 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(newsList[index].newsTitle.toString()),
-            content: Text(
-              newsList[index].newsDetails.toString(),
-              textAlign: TextAlign.justify,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  newsList[index].newsDetails.toString(),
+                  textAlign: TextAlign.justify,
+                ),
+                Row(
+                  children: [
+                    const Icon(Icons.favorite_border),
+                    const SizedBox(width: 5),
+                    Text(
+                      "${newsList[index].newsLikes}",
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.bookmark_border),
+                    const SizedBox(width: 5),
+                    Text(
+                      "${newsList[index].newsSaves}",
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ],
             ),
             actions: [
               TextButton(
@@ -396,13 +447,19 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
                           builder: (content) => EditNewsScreen(news: news)));
                   loadNewsData();
                 },
-                child: const Text("Edit?", style: TextStyle(color: Colors.black),),
+                child: const Text(
+                  "Edit?",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("Close", style: TextStyle(color: Colors.black),))
+                  child: const Text(
+                    "Close",
+                    style: TextStyle(color: Colors.black),
+                  ))
             ],
           );
         });
@@ -417,18 +474,25 @@ class _NewsletterScreenState extends State<NewsletterScreen> {
               "Delete \"${truncateString(newsList[index].newsTitle.toString(), 20)}\"",
               style: const TextStyle(fontSize: 18),
             ),
-            content: const Text("Are you sure you want to delete this newsletter?"),
+            content:
+                const Text("Are you sure you want to delete this newsletter?"),
             actions: [
               TextButton(
                 onPressed: () {
                   deleteNews(index);
                   Navigator.pop(context);
                 },
-                child: const Text("Yes", style: TextStyle(color: Colors.blueGrey),),
+                child: const Text(
+                  "Yes",
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text("No", style: TextStyle(color: Colors.red),),
+                child: const Text(
+                  "No",
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ],
           );

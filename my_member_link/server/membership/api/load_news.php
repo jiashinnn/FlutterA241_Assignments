@@ -36,6 +36,8 @@ if ($result->num_rows > 0){
 		$news['news_title'] = $row['news_title'];
 		$news['news_details'] = $row['news_details'];
 		$news['news_date'] = $row['news_date'];
+		$news['news_likes'] = $row['news_likes'];
+		$news['news_saves'] = $row['news_saves'];
 		array_push($newsarray['news'], $news);
 	}
 	$response = array('status' => 'success', 'data' => $newsarray, 'numofpage'=>$number_of_page, 'numofresult'=>$number_of_result,);
