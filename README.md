@@ -1,4 +1,22 @@
 # Mobile Web Programming Assignment: MyMemberLink App
+
+
+## MidTerm
+In this 24H lab midterm, I enhanced my app's membership product screen. Users can **view a list of membership products**, **see product details**, and **add items to a shopping cart**. I also implement features like product filtering, searching, sorting, and pagination.
+
+Hope you will feel well with my source code! :)
+
+| Product List Screen                                    | Product Details Screen                                 | Cart Screen                                            |
+|--------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
+| <p align="center"><img src="https://github.com/user-attachments/assets/fbc67cd0-3a52-4661-9cfc-96e34e986617" alt="Product List" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/19f2544d-c7a3-41f4-8a09-910bb4862392" alt="Product Details" width="80%"> | <p align="center"><img src="https://github.com/user-attachments/assets/d96972e7-a3bc-4fc3-ab0c-e4b805be091d" alt="Cart" width="80%"> |
+
+### API Endpoints
+- **Load Products**: `/membership/api/load_product.php`
+- **Add to Cart**: `/membership/api/add_to_cart.php`
+- **Load Cart Items**: `/membership/api/load_cart.php`
+- **Update Cart Item**: `/membership/api/update_cart.php`
+- **Delete Cart Item**: `/membership/api/delete_cart.php`
+
 ## Assignment 2
 I have enhanced my app with the **user-friendly main screen**, **drawer**, and **newsletter screen** with the features of **CRUD**. Users can add, search, delete and update the newsletter. In my newsletter screen, I implemented list view pagination, search by entering keyword from title or details, delete newsletter by swipe the specific item, as well as add new newsletter and edit by navigate to the other simple screen.
 
