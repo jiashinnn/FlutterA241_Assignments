@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:my_member_link/view/newsletter/new_news.dart';
+import 'package:my_member_link/view/product/product_screen.dart';
 import 'package:my_member_link/view/shared/my_drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:my_member_link/view/newsletter/newsletter_screen.dart';
@@ -103,6 +104,7 @@ class _MainScreenState extends State<MainScreen>
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5),
+
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -144,6 +146,14 @@ class _MainScreenState extends State<MainScreen>
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const NewsletterScreen()),
+                              );
+                            }
+                            if (index == 4) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ProductScreen()),
                               );
                             }
                           },

@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_member_link/view/auth/login_screen.dart';
 import 'package:my_member_link/view/main_screen.dart';
 import 'package:my_member_link/view/newsletter/newsletter_screen.dart';
+import 'package:my_member_link/view/product/product_screen.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -94,7 +95,12 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.payment),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProductScreen()));
+            },
             title: const Text("Product"),
             leading: const Icon(Icons.store),
           ),
