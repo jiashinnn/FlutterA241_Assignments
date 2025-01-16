@@ -1,3 +1,3 @@
 class Myconfig {
-  static const String servername = "http://10.113.156.69";
+  static const String servername = "https://memberlinkapp.threelittlecar.com";
 }

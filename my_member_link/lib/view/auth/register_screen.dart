@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       if (account != null) {
         Navigator.push(context,
-            MaterialPageRoute(builder: (content) => const MainScreen()));
+            MaterialPageRoute(builder: (content) => const MainScreen(userId: null,)));
       }
     });
     googleSignIn.signInSilently();

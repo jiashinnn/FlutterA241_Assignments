@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:floating_action_bubble_custom/floating_action_bubble_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:my_member_link/view/auth/login_screen.dart';
+import 'package:my_member_link/view/membership/my_membership_screen.dart';
 import 'package:my_member_link/view/newsletter/new_news.dart';
+import 'package:my_member_link/view/payment/payment_screen.dart';
 import 'package:my_member_link/view/product/product_screen.dart';
 import 'package:my_member_link/view/shared/my_drawer.dart';
 import 'package:intl/intl.dart';
 import 'package:my_member_link/view/newsletter/newsletter_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({super.key, required userId});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -32,7 +36,7 @@ class _MainScreenState extends State<MainScreen>
   List titles = [
     "Newsletters",
     "Events",
-    "Members",
+    "Membership",
     "Payment",
     "Product",
     "Vetting",
@@ -41,6 +45,7 @@ class _MainScreenState extends State<MainScreen>
   late Timer timer;
   String lastUpdate = " ";
   final df = DateFormat('dd/MM/yyyy hh:mm a');
+  String userId = "";
 
   @override
   void initState() {
@@ -54,13 +59,16 @@ class _MainScreenState extends State<MainScreen>
       parent: animationController,
     );
     animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+
+    loadUserId();
+
     updateTime();
     timer =
         Timer.periodic(const Duration(seconds: 1), (Timer t) => updateTime());
   }
 
   @override
-  void dispose(){
+  void dispose() {
     timer.cancel();
     animationController.dispose();
     super.dispose();
@@ -104,7 +112,6 @@ class _MainScreenState extends State<MainScreen>
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.5),
-
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -146,6 +153,23 @@ class _MainScreenState extends State<MainScreen>
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         const NewsletterScreen()),
+                              );
+                            }
+                            if (index == 2) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyMembershipScreen(
+                                          userId: userId,
+                                        )),
+                              );
+                            }
+                            if (index == 3) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const PaymentScreen()),
                               );
                             }
                             if (index == 4) {
@@ -214,8 +238,10 @@ class _MainScreenState extends State<MainScreen>
             icon: Icons.newspaper,
             style: const TextStyle(fontSize: 16, color: Colors.white),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const NewNewsScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const NewNewsScreen()));
             },
           ),
           BubbleMenu(
@@ -233,9 +259,31 @@ class _MainScreenState extends State<MainScreen>
 
   void updateTime() {
     final now = DateTime.now();
-  lastUpdate = df.format(now);
-    setState(() {
-      
-    });
+    lastUpdate = df.format(now);
+    setState(() {});
+  }
+
+  Future<void> loadUserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedUserId = prefs.getString("user_id");
+
+    if (storedUserId != null) {
+      setState(() {
+        userId = storedUserId;
+      });
+    } else {
+      // Handle the case when user_id is not found in SharedPreferences
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("User ID not found. Please log in again."),
+          backgroundColor: Colors.red,
+        ),
+      );
+      // Redirect to login screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    }
   }
 }

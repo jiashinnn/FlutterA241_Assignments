@@ -37,8 +37,12 @@ class _LoginScreenState extends State<LoginScreen> {
     loadPref();
     googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       if (account != null) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (content) => const MainScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (content) => const MainScreen(
+                      userId: null,
+                    )));
       }
     });
     googleSignIn.signInSilently();
@@ -189,10 +193,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fillColor:
                                     WidgetStateProperty.resolveWith((states) {
                                   if (states.contains(WidgetState.selected)) {
-                                    return Colors.black; // Black when checked
+                                    return Colors.black; 
                                   }
                                   return Colors
-                                      .white; // Default color when not checked
+                                      .white; 
                                 }),
                               ),
                             ),
@@ -364,22 +368,38 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     http.post(Uri.parse("${Myconfig.servername}/membership/api/login_user.php"),
-        body: {"email": email, "password": password}).then((response) {
+        body: {"email": email, "password": password}).then((response) async {
+      
+
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        if (data['status'] == "success") {
+        
+
+        if (data['status'] == "success" && data['data'] != null) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString("email", email);
+          await prefs.setString("user_id", data['data']['user_id']);
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Successful"),
             backgroundColor: Colors.green,
           ));
-          Navigator.push(context,
-              MaterialPageRoute(builder: (content) => const MainScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (content) =>
+                      MainScreen(userId: data['data']['user_id'])));
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Login Failed"),
             backgroundColor: Colors.red,
           ));
         }
+      } else {
+        print("Server error: ${response.statusCode}");
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Server Error"),
+          backgroundColor: Colors.red,
+        ));
       }
     });
   }
@@ -391,6 +411,7 @@ class _LoginScreenState extends State<LoginScreen> {
       prefs.setString("email", email);
       prefs.setString("password", password);
       prefs.setBool("rememberme", value);
+
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Remembered credentials"),
         backgroundColor: Colors.green,

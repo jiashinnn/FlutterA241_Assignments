@@ -1,9 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:my_member_link/myconfig.dart';
 import 'package:my_member_link/view/auth/login_screen.dart';
 import 'package:my_member_link/view/main_screen.dart';
+import 'package:my_member_link/view/membership/my_membership_screen.dart';
 import 'package:my_member_link/view/newsletter/newsletter_screen.dart';
+import 'package:my_member_link/view/payment/payment_screen.dart';
 import 'package:my_member_link/view/product/product_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -15,6 +22,16 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
+  String userName = "User Name";
+  String userEmail = "example@example.com";
+  String userId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserDetails();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -23,16 +40,16 @@ class _MyDrawerState extends State<MyDrawer> {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: const Text(
-              "Yuqi Song",
-              style: TextStyle(
+            accountName: Text(
+              userName,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
-            accountEmail: const Text(
-              "yuqisong@gmail.com",
-              style: TextStyle(
+            accountEmail: Text(
+              userEmail,
+              style: const TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 14,
               ),
@@ -61,8 +78,12 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const MainScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MainScreen(
+                            userId: userId,
+                          )));
             },
             title: const Text("Dashboard"),
             leading: const Icon(Icons.home),
@@ -85,12 +106,24 @@ class _MyDrawerState extends State<MyDrawer> {
             leading: const Icon(Icons.event),
           ),
           ListTile(
-            onTap: () {},
-            title: const Text("Members"),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyMembershipScreen(
+                            userId: userId,
+                          )));
+            },
+            title: const Text("Membership"),
             leading: const Icon(Icons.people),
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const PaymentScreen()));
+            },
             title: const Text("Payment"),
             leading: const Icon(Icons.payment),
           ),
@@ -140,5 +173,49 @@ class _MyDrawerState extends State<MyDrawer> {
     await googleSignIn.signOut();
     Navigator.push(
         context, MaterialPageRoute(builder: (content) => const LoginScreen()));
+  }
+
+  Future<void> loadUserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? email = prefs.getString("email");
+    String? id = prefs.getString("user_id");
+
+    if (email == null || email.isEmpty || id == null || id.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Please log in again."),
+        backgroundColor: Colors.red,
+      ));
+      return;
+    }
+
+    setState(() {
+      userId = id; 
+    });
+
+    final response = await http.post(
+      Uri.parse("${Myconfig.servername}/membership/api/get_user_details.php"),
+      body: {"email": email},
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      if (data['status'] == 'success') {
+        setState(() {
+          userName =
+              "${data['data']['user_firstName']} ${data['data']['user_lastName']}";
+          userEmail = data['data']['user_email'];
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Failed to fetch user details."),
+          backgroundColor: Colors.red,
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Server error. Please try again."),
+        backgroundColor: Colors.red,
+      ));
+    }
   }
 }
